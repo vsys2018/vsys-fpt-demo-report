@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Report</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="shortcut icon"
+      href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAQAAABIkb+zAAACUUlEQVR4Ae2YAWTUYRyGfzaCwwjgYCAYd/u/LwwIAOAUJcUQAFyUlCIAwBklxRAAbIABAwYGDAaCYTDCmNHZF4rLean+3d29H7/nBQD4vuf5fJEkSZIkSZIkSTIfOOAg6qXX4RnPep2oFYxYWDCKOiE4ZmHhmIgKWcExy8/hOFaiNjBkmQzDqIt+F5csk+Gy342a4D7L1Pbrsn8RG9Rk/yImimBsfzWMarK/2piow/5iogj+9lfD0N/+ejUUgXssU9urpQja/lf9br/LK1EET/vr845nugj+9j/5ZZwVnugiWNsfNxPnE7jRRXC2/078Bnd0EXztf97rTN2Qc9MiaPvjXkzR3NdFsHz74yAEONBFsLR/CHQRDO3P56EJvNBFcLS/RhfB0/4aXQQj++N9/AF+0EUwtL9GF8HF/g/iL8BDXQRL+2t4qItgaH/N5jqul1oEZf/mZWgkfKWK4Gp/xSpPRRGW+POD+EewtaxfI2X/j9ECfFpKEYT9L7gWLeAaL0QRFm//5lG0BI9VERZsfx6GxrAIwv643lwPjV8RlP3xOv6T5o0qwqLsfxqrofErgrI/tkJjWARhf36OGYFdVQQb+xsUQdkfT2KGcFsVwdb+ChyJIrjaX9G/w+9zKYKyP9/GHMA7VQRX+ws2bvGrKIKr/RXNXVWEGdsfuzFH8EUVwdT+io3b+CaKMDv7czvmTPNUFWFG9sdRaCyKIOxvtEEr+xtMFKGF/R2GUQv7W21MtLC/03QRQtvfcxi2sL/TdBGE/b2mi5AkSZIkSZIkSfIDe2woTtFWpWMAAAAASUVORK5CYII="
+      type="image/png"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/jquery-easy-loading/dist/jquery.loading.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css"
+      type="text/css"
+    />
+    <link rel="stylesheet" href="assets/css/style.css" type="text/css" />
+  </head>
+
+  <body>
+    <div class="col-sm-12" style="margin-top: 15px;">
+      <div class="panel panel-default panel-table">
+        <div class="panel-heading">
+          <span>Báo cáo đầu nhận tiền CĐ FPT</span>
+          <span
+            id="bt-refresh-mei"
+            class="glyphicon glyphicon-refresh icbt-refresh"
+            aria-hidden="true"
+            title="Làm mới"
+          ></span>
+        </div>
+        <div class="panel-body">
+          <div class="table-filter">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <div class="input-group date" id="dtp-mei-from">
+                    <span class="input-group-addon">
+                      Từ ngày
+                    </span>
+                    <input type="text" class="form-control" />
+                    <span class="input-group-addon">
+                      <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <div class="input-group date" id="dtp-mei-to">
+                    <span class="input-group-addon">
+                      Đến ngày
+                    </span>
+                    <input type="text" class="form-control" />
+                    <span class="input-group-addon">
+                      <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="margin-top: 5px;">Tổng tiền: <span id="mei-sum">0</span></div>
+          </div>
+
+          <div class="table-responsive">
+            <table
+              id="tb-mei"
+              class="table table-striped table-hover table-fw-widget"
+              style="width: 100%"
+            >
+              <thead style="width: 100%">
+                <tr>
+                  <th>Địa điểm</th>
+                  <th>Hình thức</th>
+                  <th>Thời gian</th>
+                  <th>ID</th>
+                  <th>Thực hiện</th>
+                  <th>Mệnh giá</th>
+                </tr>
+              </thead>
+              <tfoot style="width: 100%">
+                <tr>
+                  <th>Địa điểm</th>
+                  <th>Hình thức</th>
+                  <th>Thời gian</th>
+                  <th>ID</th>
+                  <th>Thực hiện</th>
+                  <th>Mệnh giá</th>
+                </tr>
+              </tfoot>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+    <script src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-easy-loading/dist/jquery.loading.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        Array.prototype.sum = function(prop) {
+          var total = 0;
+          for (var i = 0, _len = this.length; i < _len; i++) {
+            total += this[i][prop];
+          }
+          return total;
+        };
+
+        const formatter = new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" });
+        const timeformat = date => {
+          const now = new Date(date),
+            yyyy = now.getFullYear(),
+            MM = now.getMonth() + 1,
+            dd = now.getDate(),
+            hh = now.getHours(),
+            mm = now.getMinutes();
+          const twoDigit = dg => {
+            return dg < 10 ? "0" + dg : dg;
+          };
+          return `${twoDigit(dd)}/${twoDigit(MM)}/${yyyy} ${twoDigit(hh)}:${twoDigit(mm)}`;
+        };
+
+        const beginMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+        const currentTimeString = new Date().toISOString().replace(/T(.+)Z/, "T16:59:59Z");
+        const currentTime = new Date(currentTimeString);
+
+        const dtMEIfrom = $("#dtp-mei-from").datetimepicker({
+          locale: "vi",
+          defaultDate: beginMonth
+        });
+        const dtMEIto = $("#dtp-mei-to").datetimepicker({ locale: "vi", defaultDate: currentTime });
+
+        let vietnamese = {
+          sProcessing: "Đang xử lý...",
+          sLengthMenu: "Hiển thị _MENU_ dòng",
+          sZeroRecords: "Không tìm thấy dòng nào phù hợp",
+          sInfo: "Từ _START_ đến _END_ trên tổng số _TOTAL_",
+          sInfoEmpty: "Từ 0 đến 0 trên tổng số 0",
+          sInfoFiltered: "(lọc từ _MAX_ kết quả)",
+          sInfoPostFix: "",
+          sSearch: "Tìm:",
+          sUrl: "",
+          oPaginate: {
+            sFirst: "Đầu",
+            sPrevious: "Trước",
+            sNext: "Sau",
+            sLast: "Cuối"
+          }
+        };
+
+        let dataMEI = [];
+
+        // NHAP KHO
+        const tbMEI = $("#tb-mei").DataTable({
+          buttons: ["excelHtml5", "pdfHtml5"],
+          language: vietnamese,
+          pageLength: 10,
+          lengthMenu: [[6, 10, 25, 50, -1], [6, 10, 25, 50, "All"]],
+          dom:
+            "<'row be-datatable-header'<'col-sm-6'l><'col-sm-6'B>>" +
+            "<'row be-datatable-body'<'col-sm-12'tr>>" +
+            "<'row be-datatable-footer'<'col-sm-3'i><'col-sm-9'p>>",
+          data: dataMEI,
+          columns: [
+            {
+              data: "c5"
+            },
+            { data: "c1" },
+            {
+              data: "c6",
+              render: (data, type, row) => {
+                return timeformat(data);
+              }
+            },
+            { data: "c2" },
+            { data: "c3" },
+            {
+              data: "c4",
+              render: (data, type, row) => {
+                return formatter.format(data);
+              }
+            }
+          ],
+          order: [[2, "desc"]],
+          processing: true,
+          initComplete: function() {}
+        });
+
+        // GET
+        function getDataMEI(from, to) {
+          $("#tb-mei").loading();
+          fetch("/api/mei", {
+            method: "POST",
+            credentials: "same-origin",
+            headers: { "Content-Type": "application/json" },
+            redirect: "follow",
+            referrer: "no-referrer",
+            body: JSON.stringify({
+              fromdate: from,
+              todate: to
+            })
+          })
+            .then(res => {
+              return res.json();
+            })
+            .then(res => {
+              if (res.length > 0) {
+                // Update table
+                tbMEI.clear().draw();
+                tbMEI.rows.add(res).draw();
+
+                let sum = res.sum("c4");
+                $("#mei-sum").text(formatter.format(sum));
+
+                tbMEI.columns().every(function() {
+                  var column = this;
+                  var col = column.eq(0)[0];
+                  if (col === 2 || col === 5) {
+                    $('<select class="form-control" disabled></select>').appendTo(
+                      $(column.footer()).empty()
+                    );
+                  } else {
+                    var select = $(
+                      '<select class="form-control"><option value=""></option></select>'
+                    )
+                      .appendTo($(column.footer()).empty())
+                      .on("change", function() {
+                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                        let search = column.search(val ? "^" + val + "$" : "", true, false).draw();
+                        let newsum = search
+                          .column(5, { filter: "applied" })
+                          .data()
+                          .sum();
+                        $("#mei-sum").text(formatter.format(newsum));
+                      });
+                    column
+                      .data()
+                      .unique()
+                      .sort()
+                      .each(function(d, j) {
+                        select.append('<option value="' + d + '">' + d + "</option>");
+                      });
+                  }
+                });
+
+                $("#tb-mei").loading("toggle");
+              } else {
+                tbMEI.clear().draw();
+                tbMEI.columns().every(function() {
+                  var column = this;
+                  var select = $(
+                    '<select class="form-control"><option value=""></option></select>'
+                  ).appendTo($(column.footer()).empty());
+                });
+                $("#tb-mei").loading("toggle");
+              }
+            });
+        }
+
+        $("#bt-refresh-mei").click(() => {
+          let dtpfrom = $("#dtp-mei-from")
+            .data("DateTimePicker")
+            .date();
+          let fromtime = new Date(dtpfrom._d);
+          let dtpto = $("#dtp-mei-to")
+            .data("DateTimePicker")
+            .date();
+          let totime = new Date(dtpto._d);
+
+          getDataMEI(fromtime.toISOString(), totime.toISOString());
+        });
+
+        dtMEIfrom.on("dp.change", e => {
+          let dtpto = $("#dtp-mei-to")
+            .data("DateTimePicker")
+            .date();
+          let fromtime = new Date(e.date._d);
+          let totime = new Date(dtpto._d);
+
+          getDataMEI(fromtime.toISOString(), totime.toISOString());
+        });
+
+        dtMEIto.on("dp.change", e => {
+          let dtpfrom = $("#dtp-mei-from")
+            .data("DateTimePicker")
+            .date();
+          let totime = new Date(e.date._d);
+          let fromtime = new Date(dtpfrom._d);
+
+          getDataMEI(fromtime.toISOString(), totime.toISOString());
+        });
+
+        getDataMEI(beginMonth.toISOString(), currentTime.toISOString());
+      });
+    </script>
+  </body>
+</html>
